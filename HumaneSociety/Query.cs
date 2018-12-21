@@ -8,10 +8,9 @@ namespace HumaneSociety
 {
     public static class Query
     {
-
+        static HumaneSocietyDataContext db = new HumaneSocietyDataContext();
         internal static List<USState> GetStates()
         {
-            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             List<USState> allStates = db.USStates.ToList();
 
@@ -22,7 +21,7 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            Client client = db.Clients.Where(c => c.Username == userName && c.Password == password).Single();
+            Client client = db.Clients.Where(c => c.UserName == userName && c.Password == password).Single();
 
             return client;
         }
@@ -115,6 +114,11 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static Room GetRoom(int animalId)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
@@ -159,6 +163,71 @@ namespace HumaneSociety
             employeeFromDb.Password = employee.Password;
 
             db.SubmitChanges();
+        }
+
+
+
+        internal static void RunEmployeeQueries(Employee employee, string something)
+        {
+
+        }
+        internal static Animal GetAnimalByID(int iD)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        internal static void Adopt(Animal animal, Client client)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
+        {
+            var animals = db.Animals.Where(s => s.Gender == "Male").Select(p => p);
+            return animals;
+        }
+        internal static IQueryable<Adoption> GetPendingAdoptions()
+        {
+            throw new NotImplementedException();
+        }
+        internal static void UpdateAdoption(bool boolean, Adoption adoption)
+        {
+            throw new NotImplementedException();
+        }
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void UpdateShot(string boolean, Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void RemoveAnimal(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetCategoryId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetDietPlanId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void AddAnimal(Animal animal)
+        {
+            throw new NotImplementedException();
         }
     }
 }

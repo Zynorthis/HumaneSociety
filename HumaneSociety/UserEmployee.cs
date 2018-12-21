@@ -74,6 +74,8 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions(adoptionInfo);
                 UserInterface.DisplayUserOptions("Enter the number of the adoption you would like to approve");
                 int input = UserInterface.GetIntegerData();
+
+                // check input for valid adoption option here - Jacob
                 ApproveAdoption(adoptions[input - 1]);
             }
 
@@ -321,7 +323,7 @@ namespace HumaneSociety
         {
             Console.Clear();
             string username = UserInterface.GetStringData("username", "your");
-            if (Query.CheckEmployeeUserNameExist(username))
+            if (Query.CheckEmployeeUserNameExist(username) == false)
             {
                 UserInterface.DisplayUserOptions("Username already in use please try another username.");
                 GetUserName();

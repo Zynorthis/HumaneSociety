@@ -307,7 +307,7 @@ namespace HumaneSociety
             return requiredData;
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//write
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//M
         {
             UserEmployee userEmployee = new UserEmployee();
             int input = UserInterface.GetIntegerData();
@@ -353,7 +353,7 @@ namespace HumaneSociety
             }         
         }
 
-        private static void ChangePetFriendly(Animal animal)
+        private static void ChangePetFriendly(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(p => p.PetFriendly == animal.PetFriendly && p.AnimalId == animal.AnimalId).Single();
@@ -364,10 +364,10 @@ namespace HumaneSociety
             db.SubmitChanges();               
         }
 
-        private static void ChangeKidFriendly(Animal animal)
+        private static void ChangeKidFriendly(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            Animal updateAnimal = db.Animals.Where(k => k.KidFriendly == animal.KidFriendly && p.AnimalId == animal.AnimalId).Single();
+            Animal updateAnimal = db.Animals.Where(k => k.KidFriendly == animal.KidFriendly && k.AnimalId == animal.AnimalId).Single();
             Console.WriteLine("Is this animal kid friendly, Yes or No?");
             string input = Console.ReadLine();
             bool KidFriendly = input.ToUpper() == "YES" ? true : false;
@@ -375,17 +375,17 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeDemeanor(Animal animal)
+        private static void ChangeDemeanor(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            Animal updateAnimal = db.Animals.Where(d => d.Demeanor == animal.Demeanor && p.AnimalId == animal.AnimalId).Single();
+            Animal updateAnimal = db.Animals.Where(d => d.Demeanor == animal.Demeanor && d.AnimalId == animal.AnimalId).Single();
             Console.WriteLine("Enter the animals current demeanor as of today.");
             string demeanor = Console.ReadLine();
             updateAnimal.Demeanor = demeanor;
             db.SubmitChanges();
         }
 
-        private static void ChangeAge(Animal animal)
+        private static void ChangeAge(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(a => a.Age == animal.Age && a.AnimalId == animal.AnimalId).Single();
@@ -395,7 +395,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeWeight(Animal animal)
+        private static void ChangeWeight(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(w => w.Weight == animal.Weight && w.AnimalId == animal.AnimalId).Single();
@@ -405,7 +405,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeName(Animal animal)
+        private static void ChangeName(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(n => n.Name == animal.Name && n.AnimalId == animal.AnimalId).Single();
@@ -415,7 +415,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeCategory(Animal animal)
+        private static void ChangeCategory(Animal animal)//M
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(c => c.Category == animal.Category && c.AnimalId == animal.AnimalId).Single();

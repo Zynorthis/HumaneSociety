@@ -159,17 +159,17 @@ namespace HumaneSociety
 
 
         // action will be one of four things (create, read, update, or delete) - Jacob
-        internal static void RunEmployeeQueries(Employee employee, string action)
+        internal static void RunEmployeeQueries(Employee employee, string action)//admin 
         {
 
         }
-        internal static Animal GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)//customer
         {
             throw new NotImplementedException();
 
         }
 
-        internal static void Adopt(Animal animal, Client client)
+        internal static void Adopt(Animal animal, Client client)//customer
         {
             throw new NotImplementedException();
         }
@@ -346,9 +346,12 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static void AddAnimal(Animal animal)//write
+        internal static void AddAnimal(Animal animal)//M
         {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
+            AssignRoom(animal);
+            
         }
     }
 }

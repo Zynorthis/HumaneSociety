@@ -161,18 +161,18 @@ namespace HumaneSociety
 
 
         // action will be one of four things (create, read, update, or delete) - Jacob
-        internal static void RunEmployeeQueries(Employee employee, string action)
+        internal static void RunEmployeeQueries(Employee employee, string action)//admin 
         {
 
         }
-        internal static Animal GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)//customer
         {
             Animal result = new Animal();
             result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
             return result;
         }
 
-        internal static void Adopt(Animal animal, Client client)
+        internal static void Adopt(Animal animal, Client client)//customer
         {
             Adoption newAdoption = new Adoption();
             newAdoption.ClientId = client.ClientId;
@@ -276,47 +276,111 @@ namespace HumaneSociety
             }
             return animals;
         }
-        internal static IQueryable<Adoption> GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions()//M
         {
-            throw new NotImplementedException();
+            var requiredData =
+                from x in db.Adoptions
+                where x.ApprovalStatus == "Pending"
+                select x;
+            return requiredData;
+
         }
-        internal static void UpdateAdoption(bool boolean, Adoption adoption)
+        internal static void UpdateAdoption(bool x, Adoption adoption)//M
         {
-            throw new NotImplementedException();
+            var requiredData =
+             (from y in db.Adoptions
+              where y.AdoptionId == adoption.AdoptionId
+              select y).First();
+            var animal =
+                (from z in db.Animals
+                 where z.AnimalId == adoption.AnimalId
+                 select z).First();
+            if (x)
+            {
+                requiredData.ApprovalStatus = "Approved";
+                animal.AdoptionStatus = "Approved";
+            }
+            else
+            {
+                requiredData.ApprovalStatus = "Denied";
+                animal.AdoptionStatus = "Pending";
+            }
+
+            db.SubmitChanges();
         }
-        internal static IQueryable<AnimalShot> GetShots(Animal animal)
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)//M
+        {
+            var requiredData =
+                from x in db.AnimalShots
+                where x.AnimalId == animal.AnimalId
+                select x;
+
+            return requiredData;
+        }
+
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//write
         {
             throw new NotImplementedException();
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        internal static void UpdateShot(string newShot, Animal animal)//M
+        {
+            var requiredData =
+                (from x in db.Shots
+                 where x.Name == newShot
+                 select x).First();
+
+            AnimalShot newAnimalShot = new AnimalShot();
+            newAnimalShot.AnimalId = animal.AnimalId;
+            newAnimalShot.ShotId = requiredData.ShotId;
+            db.AnimalShots.InsertOnSubmit(newAnimalShot);
+            db.SubmitChanges();
+
+        }
+
+        internal static void RemoveAnimal(Animal animal)//M
+        {
+            var requiredData =
+                (from x in db.Animals
+                 where x.AnimalId == animal.AnimalId
+                 select x).First();
+
+            if (requiredData != null)
+            {
+                db.Animals.DeleteOnSubmit(requiredData);
+                db.SubmitChanges();
+            }
+        }
+
+        internal static int? GetCategoryId()//write
         {
             throw new NotImplementedException();
         }
 
-        internal static void UpdateShot(string boolean, Animal animal)
+        internal static DietPlan GetDietPlanId(string dietPlanName)//M
         {
-            throw new NotImplementedException();
+            try
+            {
+                var requiredData =
+                 (from x in db.DietPlans
+                  where x.Name == dietPlanName
+                  select x).First();
+
+                return requiredData;
+            }
+            catch
+            {
+                DietPlan newPlan = new DietPlan();
+                newPlan.Name = newDietPlan;
+                return newPlan;
+            }             
         }
 
-        internal static void RemoveAnimal(Animal animal)
+        internal static void AddAnimal(Animal animal)//M
         {
-            throw new NotImplementedException();
-        }
-
-        internal static int? GetCategoryId()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static int? GetDietPlanId()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void AddAnimal(Animal animal)
-        {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
+            AssignRoom(animal);         
         }
     }
 }

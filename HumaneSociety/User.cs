@@ -30,6 +30,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Input not recognized please try again");
+                Console.ReadKey();
                 return CheckIfNewUser();
             }
         }

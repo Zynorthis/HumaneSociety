@@ -115,8 +115,8 @@ namespace HumaneSociety
             {
                 UserInterface.DisplayAnimalInfo(animals[0]);
             }
-            UserInterface.DisplayUserOptions("Press enter to continue");
-            Console.ReadLine();
+            UserInterface.DisplayUserOptions("Press any key to continue");
+            Console.ReadKey();
         }
 
         public static string GetUserName()
@@ -130,7 +130,8 @@ namespace HumaneSociety
             if (CheckForValue(clientUsernames.ToList(), username) == true)
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Username already in use please try another username");
+                UserInterface.DisplayUserOptions("Username already in use please try another username.");
+                Console.ReadKey();
                 return GetUserName();
             }
             return username;
@@ -157,6 +158,7 @@ namespace HumaneSociety
                 {
                     Console.Clear();
                     UserInterface.DisplayUserOptions("Email already in use please try another email or contact support for forgotten account info");
+                    Console.ReadKey();
                     return GetEmail();
                 }
                 return email;
@@ -165,6 +167,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Email not valid please enter a valid email address");
+                Console.ReadKey();
                 return GetEmail();
             }
 
@@ -205,6 +208,7 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("State not Found. Please try again.");
+                Console.ReadKey();
                 return GetState();
             }
         }
@@ -298,10 +302,11 @@ namespace HumaneSociety
                 "6. Back"
             };
             int input = default(int);
-            while (input != 9)
+            while (input != 6)
             {
                 try
                 {
+                    Console.Clear();
                     UserInterface.DisplayUserOptions(options);
                     input = int.Parse(UserInterface.GetUserInput());
                     RunUpdateInput(input);
@@ -309,6 +314,7 @@ namespace HumaneSociety
                 catch
                 {
                     UserInterface.DisplayUserOptions("Input not recognized please enter an integer number of the option you would like to update");
+                    Console.ReadKey();
                 }
             }
 
@@ -335,7 +341,11 @@ namespace HumaneSociety
                 case 6:
                     break;
                 default:
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     UserInterface.DisplayUserOptions("You have reached this message in error please contact support or administator and give them code 10928849");
+                    Console.ResetColor();
+                    Console.ReadKey();
                     break;
             }
 
@@ -344,8 +354,7 @@ namespace HumaneSociety
         private void UpdatePassword()
         {
             Console.Clear();
-            Console.Clear();
-            UserInterface.DisplayUserOptions("Current Password: " + client.Password + " What is your new Password?");
+            UserInterface.DisplayUserOptions("Current Password: (" + client.Password + ") What is your new Password?");
             client.Password = UserInterface.GetUserInput();
             Query.UpdateClient(client);
         }
@@ -353,7 +362,7 @@ namespace HumaneSociety
         private void UpdateUsername()
         {
             Console.Clear();
-            UserInterface.DisplayUserOptions("Current Username: " + client.UserName);
+            UserInterface.DisplayUserOptions("Current Username: (" + client.UserName + ") What is your new Username?");
             client.UserName = GetUserName();
             Query.UpdateClient(client);
         }
@@ -361,7 +370,7 @@ namespace HumaneSociety
         private void UpdateEmail()
         {
             Console.Clear();
-            UserInterface.DisplayUserOptions("Current email: " + client.Email);
+            UserInterface.DisplayUserOptions("Current email: (" + client.Email + ") What is your new Email?");
             client.Email = GetEmail();
             Query.UpdateClient(client);
         }
@@ -375,6 +384,7 @@ namespace HumaneSociety
                 if (zipCode > 5)
                 {
                     Console.WriteLine("Invalid Zip code: length cannot exceed 5");
+                    Console.ReadKey();
                     GetZipCode();
                 }
                 return zipCode;
@@ -382,6 +392,7 @@ namespace HumaneSociety
             catch
             {
                 UserInterface.DisplayUserOptions("Invalid Zip code please enter a 5 digit zipcode");
+                Console.ReadKey();
                 return GetZipCode();
             }
         }

@@ -357,30 +357,15 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static DietPlan GetDietPlanId(string dietPlanName)//M
+        internal static int? GetDietPlanId()//M
         {
-            try
-            {
-                var requiredData =
-                 (from x in db.DietPlans
-                  where x.Name == dietPlanName
-                  select x).First();
-
-                return requiredData;
-            }
-            catch
-            {
-                DietPlan newPlan = new DietPlan();
-                newPlan.Name = newDietPlan;
-                return newPlan;
-            }             
+            throw new NotImplementedException();
         }
 
         internal static void AddAnimal(Animal animal)//M
         {
             db.Animals.InsertOnSubmit(animal);
-            db.SubmitChanges();
-            AssignRoom(animal);         
+            db.SubmitChanges();         
         }
     }
 }

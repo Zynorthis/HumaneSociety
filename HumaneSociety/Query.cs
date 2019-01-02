@@ -89,7 +89,7 @@ namespace HumaneSociety
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
 
             // if the address isn't found in the Db, create and insert it
-            if(updatedAddress == null)
+            if (updatedAddress == null)
             {
                 Address newAddress = new Address();
                 newAddress.AddressLine1 = clientAddress.AddressLine1;
@@ -105,7 +105,7 @@ namespace HumaneSociety
 
             // attach AddressId to clientFromDb.AddressId
             clientFromDb.AddressId = updatedAddress.AddressId;
-            
+
             // submit changes
             db.SubmitChanges();
         }
@@ -120,14 +120,14 @@ namespace HumaneSociety
 
             Employee employeeFromDb = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
 
-            if(employeeFromDb == null)
+            if (employeeFromDb == null)
             {
-                throw new NullReferenceException();            
+                throw new NullReferenceException();
             }
             else
             {
                 return employeeFromDb;
-            }            
+            }
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
@@ -341,35 +341,29 @@ namespace HumaneSociety
             }
         }
 
-        internal static int? GetCategoryId()//write
+        internal static void AddAnimal(Animal animal)//M
+        {
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();         
+        }
+
+     
+
+        internal static int? GetDietPlanId()
         {
             throw new NotImplementedException();
         }
 
-        internal static DietPlan GetDietPlanId(string dietPlanName)//M
+        internal static int? GetCategoryId()//M
         {
-            try
-            {
-                var requiredData =
-                 (from x in db.DietPlans
-                  where x.Name == dietPlanName
-                  select x).First();
-
-                return requiredData;
-            }
-            catch
-            {
-                DietPlan newPlan = new DietPlan();
-                newPlan.Name = newDietPlan;
-                return newPlan;
-            }             
+          
         }
-
-        internal static void AddAnimal(Animal animal)//M
-        {
-            db.Animals.InsertOnSubmit(animal);
-            db.SubmitChanges();
-            AssignRoom(animal);         
-        }
-    }
+    }                
 }
+
+
+
+
+
+       
+  

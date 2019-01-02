@@ -357,7 +357,7 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(p => p.PetFriendly == animal.PetFriendly && p.AnimalId == animal.AnimalId).Single();
-            Console.WriteLine("Is this animal friendly, Yes or No?");
+            Console.WriteLine("Is this animal pet friendly, Yes or No?");
             string input = Console.ReadLine();
             bool petFriendly = input.ToUpper() == "YES" ? true : false;
             updateAnimal.PetFriendly = petFriendly;
@@ -366,7 +366,13 @@ namespace HumaneSociety
 
         private static void ChangeKidFriendly(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(k => k.KidFriendly == animal.KidFriendly && p.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Is this animal kid friendly, Yes or No?");
+            string input = Console.ReadLine();
+            bool KidFriendly = input.ToUpper() == "YES" ? true : false;
+            updateAnimal.KidFriendly = KidFriendly;
+            db.SubmitChanges();
         }
 
         private static void ChangeDemeanor(Animal animal)

@@ -334,5 +334,10 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Username successful");
             }
         }
+
+        internal void UpdateAnimal(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

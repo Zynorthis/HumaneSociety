@@ -112,9 +112,7 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            Room result = new Room();
-            result = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
-            return result;
+            throw new NotImplementedException();
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
@@ -167,22 +165,13 @@ namespace HumaneSociety
         }
         internal static Animal GetAnimalByID(int iD)//customer
         {
-            Animal result = new Animal();
-            result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
-            return result;
+            throw new NotImplementedException();
+
         }
 
         internal static void Adopt(Animal animal, Client client)//customer
         {
-            Adoption newAdoption = new Adoption();
-            newAdoption.ClientId = client.ClientId;
-            newAdoption.AnimalId = animal.AnimalId;
-            newAdoption.ApprovalStatus = "Pending";
-            newAdoption.AdoptionFee = 75;
-            newAdoption.PaymentCollected = false;
-
-            db.Adoptions.InsertOnSubmit(newAdoption);
-            db.SubmitChanges();
+            throw new NotImplementedException();
         }
 
         internal static List<Animal> SearchForAnimalByMultipleTraits()
@@ -320,6 +309,84 @@ namespace HumaneSociety
 
         internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//write
         {
+            UserEmployee userEmployee = new UserEmployee();
+            int input = UserInterface.GetIntegerData();
+            if (input == 1)
+            {
+                ChangeCategory(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 2)
+            {
+                ChangeName(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 3)
+            {
+                ChangeDemeanor(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 4)
+            {
+                ChangeAge(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 5)
+            {
+                ChangePetFriendly(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 6)
+            {
+                ChangeWeight(animal);
+                userEmployee.UpdateAnimal(animal);
+
+            }
+            else if (input == 7)
+            {
+                ChangeKidFriendly(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 8)
+            {
+                
+            }
+
+          
+        }
+
+        private static void ChangePetFriendly(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeKidFriendly(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeDemeanor(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeAge(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeWeight(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeName(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ChangeCategory(Animal animal)
+        {
             throw new NotImplementedException();
         }
 
@@ -360,14 +427,56 @@ namespace HumaneSociety
 
      
 
-        internal static int? GetDietPlanId()
+        internal static int? GetDietPlanId(string dietPlanId)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var dietName = db.DietPlans.FirstOrDefault(d => d.Name == dietPlanId);
+            if (dietName == null)
+            {
+                Console.Clear();
+                Console.WriteLine("The diet plan is not valid. Please choose the correct diet plan.\n");
+                Console.WriteLine($"Adding {dietPlanId} to database\n");
+                addNewDietPlan(dietPlanId);
+            }
+            var dietId = db.DietPlans.Where(c => c.Name == dietPlanId).Select(i => i.DietPlanId).SingleOrDefault();
+            return dietId;
         }
 
-        internal static int? GetCategoryId()//M
+        private static void addNewDietPlan(string dietPlanId)
         {
-          
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            DietPlan dietPlanToAdd = new DietPlan();
+            dietPlanToAdd.Name = dietPlanId;
+            dietPlanToAdd.FoodType = UserInterface.GetStringData("type of food is:");
+            dietPlanToAdd.FoodAmountInCups = UserInterface.GetIntegerData("Serving size is:");
+            db.DietPlans.InsertAllOnSubmit(dietPlanToAdd);
+            db.SubmitChanges();
+
+
+        }
+
+        internal static int? GetCategoryId(string categoryId)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var categoryName = db.Categories.FirstOrDefault(i => i.Name == categoryId);
+            if (categoryName == null)
+            {
+                Console.Clear();
+                Console.WriteLine("The ID entered is not valid. Please enter the correct ID.");
+                Console.WriteLine($"Adding {categoryName} to database\n");
+                addNewCategory(categoryName);            
+            }
+            var category = db.Categories.Where(c => c.Name == categoryId).Select(i => i.CategoryId).SingleOrDefault();
+            return categoryId;
+        }
+
+        private static void addNewCategory(object categoryId)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Category categoryToAdd = new Category();
+            categoryToAdd.Name = categoryId;
+            db.Categories.InsertOnSubmit(categoryToAdd);
+            db.SubmitChanges();
         }
     }                
 }

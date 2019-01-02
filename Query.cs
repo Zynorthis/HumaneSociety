@@ -117,7 +117,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static Room GetRoom(int animalId)
+        internal static Room GetRoom(int animalId)// UI 
         {
             throw new NotImplementedException();
         }
@@ -171,18 +171,18 @@ namespace HumaneSociety
 
       
         //action will be one of four things(create, read, update or delete) switch/default statement
-        internal static void RunEmployeeQueries(Employee employee, string action)
+        internal static void RunEmployeeQueries(Employee employee, string action)//admin
         {
 
         }
 
-        internal static Animal GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)//customer
         {
             throw new NotImplementedException();
 
         }
 
-        internal static void Adopt(Animal animal, Client client)
+        internal static void Adopt(Animal animal, Client client)//customer
         {
             throw new NotImplementedException();
         }
@@ -199,7 +199,7 @@ namespace HumaneSociety
             return requiredData;
         }
 
-        internal static void UpdateAdoption(bool x, Adoption adoption)
+        internal static void UpdateAdoption(bool x, Adoption adoption)// complete -M
         {
            
             var requiredData =
@@ -231,17 +231,32 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static IQueryable<AnimalShot> GetShots(Animal animal)//write
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)//complete -M
         {
-            throw new NotImplementedException();
+            var requiredData =
+                from x in db.AnimalShots
+                where x.AnimalId == animal.AnimalId
+                select x;
+
+            return requiredData;            
         }
 
-        internal static void UpdateShot(string boolean, Animal animal)//write
+        internal static void UpdateShot(string newShot, Animal animal)//complete -M
         {
-            throw new NotImplementedException();
+            
+            var requiredData =
+                (from x in db.AnimalShots
+                 where x.Name == newShot
+                 select x).First();
+
+            AnimalShot newAnimalShot = new AnimalShot();
+            newAnimalShot.AnimalId = animal.AnimalId;
+            newAnimalShot.ShotId = requiredData.ShotId;
+            db.AnimalShots.InsertOnSubmit(newAnimalShot);
+            db.SubmitChanges();
         }
 
-        internal static void RemoveAnimal(Animal animal)
+        internal static void RemoveAnimal(Animal animal)//complete -M
         {
             var requiredData =
                 (from x in db.Animals

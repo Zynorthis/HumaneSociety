@@ -1223,9 +1223,10 @@ namespace HumaneSociety
 		private EntityRef<Animal> _Animal;
 		
 		private EntityRef<Shot> _Shot;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
+        internal string Name;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnAnimalIdChanging(int value);

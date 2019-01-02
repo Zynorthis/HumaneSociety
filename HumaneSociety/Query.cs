@@ -350,14 +350,18 @@ namespace HumaneSociety
             else if (input == 8)
             {
                 
-            }
-
-          
+            }         
         }
 
         private static void ChangePetFriendly(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(p => p.PetFriendly == animal.PetFriendly && p.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Is this animal friendly, Yes or No?");
+            string input = Console.ReadLine();
+            bool petFriendly = input.ToUpper() == "YES" ? true : false;
+            updateAnimal.PetFriendly = petFriendly;
+            db.SubmitChanges();               
         }
 
         private static void ChangeKidFriendly(Animal animal)

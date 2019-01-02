@@ -86,7 +86,7 @@ namespace HumaneSociety
         private void ApplyForAdoption()
         {
             Console.Clear();
-            UserInterface.DisplayUserOptions("Please enter the ID of the animal you wish to adopt or type reset or exit");
+            UserInterface.DisplayUserOptions("Please enter the ID of the animal you wish to adopt or type 'reset' or 'exit'");
             int iD = UserInterface.GetIntegerData();
             var animal = Query.GetAnimalByID(iD);
             UserInterface.DisplayAnimalInfo(animal);
@@ -94,7 +94,7 @@ namespace HumaneSociety
             if ((bool)UserInterface.GetBitData())
             {
                 Query.Adopt(animal, client);
-                UserInterface.DisplayUserOptions("Adoption request sent we will hold $75 adoption fee until processed");
+                UserInterface.DisplayUserOptions("Adoption request sent! We will hold a $75 adoption fee until processed.");
             }
         }
 
@@ -288,7 +288,15 @@ namespace HumaneSociety
         }
         public void UpdateClientInfo()
         {
-            List<string> options = new List<string>() { "What would you like to update? (Please enter number of option)", "1: Name", "2: Address", "3: Email", "4: Username", "5: Password", "6. Back" };
+            List<string> options = new List<string>() {
+                "What would you like to update? (Please enter number of option)",
+                "1: Name",
+                "2: Address",
+                "3: Email",
+                "4: Username",
+                "5: Password",
+                "6. Back"
+            };
             int input = default(int);
             while (input != 9)
             {
@@ -399,7 +407,13 @@ namespace HumaneSociety
         public void UpdateName()
         {
             Console.Clear();
-            List<string> options = new List<string>() { "Current Name:", client.FirstName, client.LastName, "Would you like to update?", "1. First", "2. Last", "3. Both" };
+            List<string> options = new List<string>() {
+                "Current Name:", client.FirstName, client.LastName,
+                "Would you like to update?",
+                "1. First",
+                "2. Last",
+                "3. Both"
+            };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput().ToLower();
             if (input == "first" || input == "1")

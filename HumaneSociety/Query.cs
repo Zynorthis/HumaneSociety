@@ -112,7 +112,9 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            Room result = new Room();
+            result = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
+            return result;
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
@@ -165,13 +167,22 @@ namespace HumaneSociety
         }
         internal static Animal GetAnimalByID(int iD)//customer
         {
-            throw new NotImplementedException();
-
+            Animal result = new Animal();
+            result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+            return result;
         }
 
         internal static void Adopt(Animal animal, Client client)//customer
         {
-            throw new NotImplementedException();
+            Adoption newAdoption = new Adoption();
+            newAdoption.ClientId = client.ClientId;
+            newAdoption.AnimalId = animal.AnimalId;
+            newAdoption.ApprovalStatus = "Pending";
+            newAdoption.AdoptionFee = 75;
+            newAdoption.PaymentCollected = false;
+
+            db.Adoptions.InsertOnSubmit(newAdoption);
+            db.SubmitChanges();
         }
 
         internal static List<Animal> SearchForAnimalByMultipleTraits()

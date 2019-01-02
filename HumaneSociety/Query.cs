@@ -377,17 +377,32 @@ namespace HumaneSociety
 
         private static void ChangeDemeanor(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(d => d.Demeanor == animal.Demeanor && p.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals current demeanor as of today.");
+            string demeanor = Console.ReadLine();
+            updateAnimal.Demeanor = demeanor;
+            db.SubmitChanges();
         }
 
         private static void ChangeAge(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(a => a.Age == animal.Age && a.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals age.");
+            int age = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.Age = age;
+            db.SubmitChanges();
         }
 
         private static void ChangeWeight(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(w => w.Weight == animal.Weight && w.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new weight.");
+            int weight = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.Weight = weight;
+            db.SubmitChanges();
         }
 
         private static void ChangeName(Animal animal)

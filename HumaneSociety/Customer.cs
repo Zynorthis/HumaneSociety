@@ -25,31 +25,39 @@ namespace HumaneSociety
         }
         protected override void LogInPreExistingUser()
         {
-            List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
+            List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE):" };
             UserInterface.DisplayUserOptions(options);
             userName = UserInterface.GetUserInput();
-            UserInterface.DisplayUserOptions("Enter your password (CaSe SeNsItIvE)");
+            UserInterface.DisplayUserOptions("Enter your password (CaSe SeNsItIvE):");
             string password = UserInterface.GetUserInput();
             try
             {
                 client = Query.GetClient(userName, password);
                 name = client.FirstName;
+                Console.Clear();
+                Console.WriteLine("DevTesting: Name found = " + name);
+                Console.ReadKey();
             }
             catch
             {
                 UserInterface.DisplayUserOptions("User not found. Please try another username, contact support or type 'reset' to restart");
-                LogIn();
+                Console.ReadKey();
+                LogInPreExistingUser();
                 return;
             }
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "1. Search for animals", "2. Update info", "3. Apply for Adoption" };
-            Console.Clear();            
+            List<string> options = new List<string>() {
+                "What would you like to do?",
+                "--------------------------",
+                "1. Search for animals",
+                "2. Update info",
+                "3. Apply for Adoption"
+            };            
             UserInterface.DisplayUserOptions(options);
             int input = UserInterface.GetIntegerData();
             RunUserInput(input);
-            
         }
 
         private void RunUserInput(int input)
@@ -69,7 +77,8 @@ namespace HumaneSociety
                     RunUserMenus();
                     return;
                 default:
-                    UserInterface.DisplayUserOptions("Input not accepted please try again");
+                    UserInterface.DisplayUserOptions("Input not accepted please try again.");
+                    RunUserMenus();
                     return;
             }
         }     
@@ -91,8 +100,8 @@ namespace HumaneSociety
 
         private void RunSearch()
         {
-            Console.Clear();            
-            var animals = Query.SearchForAnimalByMultipleTraits().ToList();
+            Console.Clear();
+            var animals = Query.SearchForAnimalByMultipleTraits();
             if (animals.Count > 1)
             {
                 UserInterface.DisplayUserOptions("Several animals found");
@@ -115,8 +124,10 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter a username");
             string username = UserInterface.GetUserInput();
             var clients = Query.GetClients();
-            var clientUsernames = from client in clients select client.UserName;
-            if (CheckForValue(clientUsernames.ToList(), username))
+            var clientUsernames = 
+                from client in clients
+                select client.UserName;
+            if (CheckForValue(clientUsernames.ToList(), username) == true)
             {
                 Console.Clear();
                 UserInterface.DisplayUserOptions("Username already in use please try another username");
@@ -135,7 +146,9 @@ namespace HumaneSociety
         public static string GetEmail()
         {
             var clients = Query.GetClients();
-            var clientEmails = from client in clients select client.Email;
+            var clientEmails = 
+                from client in clients
+                select client.Email;
             UserInterface.DisplayUserOptions("Please enter your email");
             string email = UserInterface.GetUserInput();
             if (email.Contains("@") && email.Contains("."))
@@ -158,22 +171,32 @@ namespace HumaneSociety
         }
         private static int GetState()
         {
-            UserInterface.DisplayUserOptions("Please enter your state (abbreviation or full state name");
+            UserInterface.DisplayUserOptions("Please enter your state (abbreviation or full state name)");
             string state = UserInterface.GetUserInput();
             var states = Query.GetStates();
-            var stateNames = from territory in states select territory.Name.ToLower();
-            var stateAbrreviations = from territory in states select territory.Abbreviation;
+            var stateNames = 
+                from territory in states
+                select territory.Name.ToLower();
+            var stateAbrreviations = 
+                from territory in states
+                select territory.Abbreviation;
             if (stateNames.ToList().Contains(state.ToLower()) || stateAbrreviations.ToList().Contains(state.ToUpper()))
             {
                 try
                 {
-                    var stateReturn = from territory in states where territory.Name.ToLower() == state.ToLower() select territory.USStateId;
+                    var stateReturn = 
+                        from territory in states
+                        where territory.Name.ToLower() == state.ToLower()
+                        select territory.USStateId;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
                 catch
                 {
-                    var stateReturn = from territory in states where territory.Abbreviation == state.ToUpper() select territory.USStateId;
+                    var stateReturn = 
+                        from territory in states
+                        where territory.Abbreviation == state.ToUpper()
+                        select territory.USStateId;
                     int stateNumber = stateReturn.ToList()[0];
                     return stateNumber;
                 }
@@ -181,7 +204,7 @@ namespace HumaneSociety
             else
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("State not Found");
+                UserInterface.DisplayUserOptions("State not Found. Please try again.");
                 return GetState();
             }
         }
@@ -190,7 +213,9 @@ namespace HumaneSociety
             try
             {
                 var clients = Query.GetClients();
-                var clientUsernames = from client in clients select client.UserName;
+                var clientUsernames = 
+                    from client in clients
+                    select client.UserName;
                 string username = GetUserName();
                 string email = GetEmail();
                 Console.Clear();
@@ -206,7 +231,9 @@ namespace HumaneSociety
                 string streetAddress = UserInterface.GetUserInput();
                 Query.AddNewClient(firstName, lastName, username, password, email, streetAddress, zipCode, stateId);
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
                 UserInterface.DisplayUserOptions("Profile successfully added");
+                Console.ResetColor();
                 return true;
             }
             catch
@@ -337,6 +364,11 @@ namespace HumaneSociety
             try
             {
                 int zipCode = int.Parse(UserInterface.GetUserInput());
+                if (zipCode > 5)
+                {
+                    Console.WriteLine("Invalid Zip code: length cannot exceed 5");
+                    GetZipCode();
+                }
                 return zipCode;
             }
             catch

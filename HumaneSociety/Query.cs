@@ -174,9 +174,95 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
+        internal static List<Animal> SearchForAnimalByMultipleTraits()
         {
-            var animals = db.Animals.Where(s => s.Gender == "Male").Select(p => p);
+            bool keepSearching = true;
+            var animals = db.Animals.ToList();
+            while (keepSearching == true)
+            {
+                List<string> options = new List<string>() {
+                    "What trait would you like to search for?",
+                    "----------------------------------------",
+                    "1. Name",
+                    "2. Category",
+                    "3. Weight",
+                    "4. Age",
+                    "5. Diet",
+                    "6. Demeanor",
+                    "7. Kid Friendliness",
+                    "8. Pet Friendliness",
+                    "9. Gender"
+                };
+                UserInterface.DisplayUserOptions(options);
+                var userInput = UserInterface.GetIntegerData();
+                switch (userInput)
+                {
+                    case 1:
+                        UserInterface.DisplayUserOptions("Enter a Name to search by:");
+                        string searchName = UserInterface.GetUserInput();
+                        animals = animals.Where(n => n.Name == searchName).Select(n => n).ToList();
+                        break;
+                    case 2:
+                        UserInterface.DisplayUserOptions("Enter a Category to search by:");
+                        string searchCategory = UserInterface.GetUserInput();
+                        animals = animals.Where(c => c.Category.Name == searchCategory).Select(c => c).ToList();
+                        break;
+                    case 3:
+                        UserInterface.DisplayUserOptions("Enter a Weight to search by:");
+                        int searchWeight = UserInterface.GetIntegerData();
+                        animals = animals.Where(n => n.Weight == searchWeight).Select(n => n).ToList();
+                        break;
+                    case 4:
+                        UserInterface.DisplayUserOptions("Enter a Age to search by:");
+                        int searchAge = UserInterface.GetIntegerData();
+                        animals = animals.Where(n => n.Age == searchAge).Select(n => n).ToList();
+                        break;
+                    case 5:
+                        UserInterface.DisplayUserOptions("Enter the name of the Diet to search by:");
+                        string searchDiet = UserInterface.GetUserInput();
+                        animals = animals.Where(n => n.DietPlan.Name == searchDiet).Select(n => n).ToList();
+                        break;
+                    case 6:
+                        UserInterface.DisplayUserOptions("Enter a animal Demeanor to search by:");
+                        string searchDemeanor = UserInterface.GetUserInput();
+                        animals = animals.Where(n => n.Demeanor == searchDemeanor).Select(n => n).ToList();
+                        break;
+                    case 7:
+                        bool? searchKidFriendliness = UserInterface.GetBitData("the animal ", "Kid Freindly");
+                        animals = animals.Where(n => n.KidFriendly == searchKidFriendliness).Select(n => n).ToList();
+                        break;
+                    case 8:
+                        bool? searchPetFriendliness = UserInterface.GetBitData("the animal ", "Pet Freindly");
+                        animals = animals.Where(n => n.PetFriendly == searchPetFriendliness).Select(n => n).ToList();
+                        break;
+                    case 9:
+                        UserInterface.DisplayUserOptions("Enter a Gender to search by:");
+                        string searchGender = UserInterface.GetUserInput();
+                        animals = animals.Where(n => n.Gender == searchGender.ToLower()).Select(n => n).ToList();
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: not a valid option, please try again.");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                        break;
+                }
+                Console.WriteLine("Would you like to enter in another search criteria?");
+                string answer = UserInterface.GetUserInput();
+                if (answer.ToLower() == "yes" || answer.ToLower() == "y")
+                {
+                    keepSearching = true;
+                }
+                else if (answer.ToLower() == "no" || answer.ToLower() == "n")
+                {
+                    keepSearching = false;
+                }
+                else
+                {
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Input not recognized please try again");
+                }
+            }
             return animals;
         }
         internal static IQueryable<Adoption> GetPendingAdoptions()

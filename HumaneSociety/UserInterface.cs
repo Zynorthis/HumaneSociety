@@ -17,6 +17,7 @@ namespace HumaneSociety
         }
         public static void DisplayUserOptions(string options)
         {
+            Console.Clear();
             Console.WriteLine(options);
         }
         public static string GetUserInput()

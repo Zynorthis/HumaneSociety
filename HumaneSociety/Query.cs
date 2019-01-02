@@ -265,11 +265,16 @@ namespace HumaneSociety
             }
             return animals;
         }
-        internal static IQueryable<Adoption> GetPendingAdoptions()//write
+        internal static IQueryable<Adoption> GetPendingAdoptions()//M
         {
-            throw new NotImplementedException();
+            var requiredData =
+                from x in db.Adoptions
+                where x.ApprovalStatus == "Pending"
+                select x;
+            return requiredData;
+
         }
-        internal static void UpdateAdoption(bool x, Adoption adoption)
+        internal static void UpdateAdoption(bool x, Adoption adoption)//M
         {
             var requiredData =
              (from y in db.Adoptions
@@ -341,17 +346,30 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static int? GetDietPlanId()//write
+        internal static DietPlan GetDietPlanId(string dietPlanName)//M
         {
-            throw new NotImplementedException();
+            try
+            {
+                var requiredData =
+                 (from x in db.DietPlans
+                  where x.Name == dietPlanName
+                  select x).First();
+
+                return requiredData;
+            }
+            catch
+            {
+                DietPlan newPlan = new DietPlan();
+                newPlan.Name = newDietPlan;
+                return newPlan;
+            }             
         }
 
         internal static void AddAnimal(Animal animal)//M
         {
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
-            AssignRoom(animal);
-            
+            AssignRoom(animal);         
         }
     }
 }

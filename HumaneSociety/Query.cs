@@ -265,45 +265,88 @@ namespace HumaneSociety
             }
             return animals;
         }
-        internal static IQueryable<Adoption> GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions()//write
         {
             throw new NotImplementedException();
         }
-        internal static void UpdateAdoption(bool boolean, Adoption adoption)
+        internal static void UpdateAdoption(bool x, Adoption adoption)
         {
-            throw new NotImplementedException();
+            var requiredData =
+             (from y in db.Adoptions
+              where y.AdoptionId == adoption.AdoptionId
+              select y).First();
+            var animal =
+                (from z in db.Animals
+                 where z.AnimalId == adoption.AnimalId
+                 select z).First();
+            if (x)
+            {
+                requiredData.ApprovalStatus = "Approved";
+                animal.AdoptionStatus = "Approved";
+            }
+            else
+            {
+                requiredData.ApprovalStatus = "Denied";
+                animal.AdoptionStatus = "Pending";
+            }
+
+            db.SubmitChanges();
         }
-        internal static IQueryable<AnimalShot> GetShots(Animal animal)
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)//M
+        {
+            var requiredData =
+                from x in db.AnimalShots
+                where x.AnimalId == animal.AnimalId
+                select x;
+
+            return requiredData;
+        }
+
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//write
         {
             throw new NotImplementedException();
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        internal static void UpdateShot(string newShot, Animal animal)//M
+        {
+            var requiredData =
+                (from x in db.Shots
+                 where x.Name == newShot
+                 select x).First();
+
+            AnimalShot newAnimalShot = new AnimalShot();
+            newAnimalShot.AnimalId = animal.AnimalId;
+            newAnimalShot.ShotId = requiredData.ShotId;
+            db.AnimalShots.InsertOnSubmit(newAnimalShot);
+            db.SubmitChanges();
+
+        }
+
+        internal static void RemoveAnimal(Animal animal)//M
+        {
+            var requiredData =
+                (from x in db.Animals
+                 where x.AnimalId == animal.AnimalId
+                 select x).First();
+
+            if (requiredData != null)
+            {
+                db.Animals.DeleteOnSubmit(requiredData);
+                db.SubmitChanges();
+            }
+        }
+
+        internal static int? GetCategoryId()//write
         {
             throw new NotImplementedException();
         }
 
-        internal static void UpdateShot(string boolean, Animal animal)
+        internal static int? GetDietPlanId()//write
         {
             throw new NotImplementedException();
         }
 
-        internal static void RemoveAnimal(Animal animal)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static int? GetCategoryId()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static int? GetDietPlanId()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void AddAnimal(Animal animal)
+        internal static void AddAnimal(Animal animal)//write
         {
             throw new NotImplementedException();
         }

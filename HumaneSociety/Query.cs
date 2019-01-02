@@ -89,7 +89,7 @@ namespace HumaneSociety
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
 
             // if the address isn't found in the Db, create and insert it
-            if(updatedAddress == null)
+            if (updatedAddress == null)
             {
                 Address newAddress = new Address();
                 newAddress.AddressLine1 = clientAddress.AddressLine1;
@@ -105,16 +105,14 @@ namespace HumaneSociety
 
             // attach AddressId to clientFromDb.AddressId
             clientFromDb.AddressId = updatedAddress.AddressId;
-            
+
             // submit changes
             db.SubmitChanges();
         }
 
         internal static Room GetRoom(int animalId)
         {
-            Room result = new Room();
-            result = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
-            return result;
+            throw new NotImplementedException();
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
@@ -122,14 +120,14 @@ namespace HumaneSociety
 
             Employee employeeFromDb = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
 
-            if(employeeFromDb == null)
+            if (employeeFromDb == null)
             {
-                throw new NullReferenceException();            
+                throw new NullReferenceException();
             }
             else
             {
                 return employeeFromDb;
-            }            
+            }
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
@@ -167,22 +165,13 @@ namespace HumaneSociety
         }
         internal static Animal GetAnimalByID(int iD)//customer
         {
-            Animal result = new Animal();
-            result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
-            return result;
+            throw new NotImplementedException();
+
         }
 
         internal static void Adopt(Animal animal, Client client)//customer
         {
-            Adoption newAdoption = new Adoption();
-            newAdoption.ClientId = client.ClientId;
-            newAdoption.AnimalId = animal.AnimalId;
-            newAdoption.ApprovalStatus = "Pending";
-            newAdoption.AdoptionFee = 75;
-            newAdoption.PaymentCollected = false;
-
-            db.Adoptions.InsertOnSubmit(newAdoption);
-            db.SubmitChanges();
+            throw new NotImplementedException();
         }
 
         internal static List<Animal> SearchForAnimalByMultipleTraits()
@@ -318,9 +307,122 @@ namespace HumaneSociety
             return requiredData;
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//write
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//M
         {
-            throw new NotImplementedException();
+            UserEmployee userEmployee = new UserEmployee();
+            int input = UserInterface.GetIntegerData();
+            if (input == 1)
+            {
+                ChangeCategory(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 2)
+            {
+                ChangeName(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 3)
+            {
+                ChangeDemeanor(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 4)
+            {
+                ChangeAge(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 5)
+            {
+                ChangePetFriendly(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 6)
+            {
+                ChangeWeight(animal);
+                userEmployee.UpdateAnimal(animal);
+
+            }
+            else if (input == 7)
+            {
+                ChangeKidFriendly(animal);
+                userEmployee.UpdateAnimal(animal);
+            }
+            else if (input == 8)
+            {
+                
+            }         
+        }
+
+        private static void ChangePetFriendly(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(p => p.PetFriendly == animal.PetFriendly && p.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Is this animal pet friendly, Yes or No?");
+            string input = Console.ReadLine();
+            bool petFriendly = input.ToUpper() == "YES" ? true : false;
+            updateAnimal.PetFriendly = petFriendly;
+            db.SubmitChanges();               
+        }
+
+        private static void ChangeKidFriendly(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(k => k.KidFriendly == animal.KidFriendly && k.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Is this animal kid friendly, Yes or No?");
+            string input = Console.ReadLine();
+            bool KidFriendly = input.ToUpper() == "YES" ? true : false;
+            updateAnimal.KidFriendly = KidFriendly;
+            db.SubmitChanges();
+        }
+
+        private static void ChangeDemeanor(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(d => d.Demeanor == animal.Demeanor && d.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals current demeanor as of today.");
+            string demeanor = Console.ReadLine();
+            updateAnimal.Demeanor = demeanor;
+            db.SubmitChanges();
+        }
+
+        private static void ChangeAge(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(a => a.Age == animal.Age && a.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals age.");
+            int age = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.Age = age;
+            db.SubmitChanges();
+        }
+
+        private static void ChangeWeight(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(w => w.Weight == animal.Weight && w.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new weight.");
+            int weight = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.Weight = weight;
+            db.SubmitChanges();
+        }
+
+        private static void ChangeName(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(n => n.Name == animal.Name && n.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new name.");
+            string name = Console.ReadLine();
+            updateAnimal.Name = name;
+            db.SubmitChanges();
+        }
+
+        private static void ChangeCategory(Animal animal)//M
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(c => c.Category == animal.Category && c.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new Category ID.");
+            int category = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.CategoryId = category;
+            db.SubmitChanges();
         }
 
         internal static void UpdateShot(string newShot, Animal animal)//M
@@ -352,9 +454,10 @@ namespace HumaneSociety
             }
         }
 
-        internal static int? GetCategoryId()//write
+        internal static void AddAnimal(Animal animal)//M
         {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();         
         }
 
         internal static int? GetDietPlanId()//M
@@ -362,10 +465,19 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static void AddAnimal(Animal animal)//M
+        private static void addNewCategory()
         {
-            db.Animals.InsertOnSubmit(animal);
-            db.SubmitChanges();         
+            Category categoryToAdd = new Category();
+            // categoryToAdd.Name = categoryId;
+            db.Categories.InsertOnSubmit(categoryToAdd);
+            db.SubmitChanges();
         }
-    }
+    }                
 }
+
+
+
+
+
+       
+  

@@ -228,5 +228,10 @@ namespace HumaneSociety
                     return searchParameters;
             }
         }
+
+        internal static string GetStringData(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

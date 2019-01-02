@@ -407,12 +407,22 @@ namespace HumaneSociety
 
         private static void ChangeName(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(n => n.Name == animal.Name && n.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new name.");
+            string name = Console.ReadLine();
+            updateAnimal.Name = name;
+            db.SubmitChanges();
         }
 
         private static void ChangeCategory(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal updateAnimal = db.Animals.Where(c => c.Category == animal.Category && c.AnimalId == animal.AnimalId).Single();
+            Console.WriteLine("Enter the animals new Category ID.");
+            int category = Convert.ToInt32(Console.ReadLine());
+            updateAnimal.CategoryId = category;
+            db.SubmitChanges();
         }
 
         internal static void UpdateShot(string newShot, Animal animal)//M

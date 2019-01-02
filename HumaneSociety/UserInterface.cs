@@ -233,5 +233,10 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
+
+        internal static int? GetIntegerData(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -14,7 +14,11 @@ namespace HumaneSociety
             string password = UserInterface.GetUserInput();
             if (password.ToLower() != "poiuyt")
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 UserInterface.DisplayUserOptions("Incorrect password please try again or type exit");
+                Console.ResetColor();
+                Console.ReadKey();
             }
             else
             {
@@ -25,7 +29,20 @@ namespace HumaneSociety
         protected override void RunUserMenus()
         {
             Console.Clear();
-            List<string> options = new List<string>() { "Admin log in successful.", "What would you like to do?", "1. Create new employee", "2. Delete employee", "3. Read employee info ", "4. Update emplyee info", "(type 1, 2, 3, 4,  create, read, update, or delete)" };
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Admin log in successful.");
+            Console.ResetColor();
+            Console.ReadKey();
+
+            List<string> options = new List<string>() {
+                "What would you like to do?",
+                "1. Create new employee",
+                "2. Delete employee",
+                "3. Read employee info ",
+                "4. Update emplyee info",
+                "(type 1, 2, 3, 4,  create, read, update, or delete)"
+            };
+            Console.Clear();
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunInput(input);
@@ -54,7 +71,10 @@ namespace HumaneSociety
             }
             else
             {
-                UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
+                Console.ForegroundColor = ConsoleColor.Red;
+                UserInterface.DisplayUserOptions("Input not recognized please try again or type exit.");
+                Console.ResetColor();
+                Console.ReadKey();
                 RunUserMenus();
             }
         }
@@ -69,12 +89,18 @@ namespace HumaneSociety
             try
             {
                 Query.RunEmployeeQueries(employee, "update");
+                Console.ForegroundColor = ConsoleColor.Green;
                 UserInterface.DisplayUserOptions("Employee update successful.");
+                Console.ResetColor();
+                Console.ReadKey();
             }
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee update unsuccessful please try again or type exit;");
+                Console.ForegroundColor = ConsoleColor.Red;
+                UserInterface.DisplayUserOptions("Employee update unsuccessful please try again or type exit.");
+                Console.ResetColor();
+                Console.ReadKey();
                 return;
             }
         }
@@ -90,7 +116,10 @@ namespace HumaneSociety
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee not found please try again or type exit;");
+                Console.ForegroundColor = ConsoleColor.Red;
+                UserInterface.DisplayUserOptions("Employee not found please try again or type exit.");
+                Console.ResetColor();
+                Console.ReadKey();
                 return;
             }
         }
@@ -104,12 +133,18 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 Query.RunEmployeeQueries(employee, "delete");
+                Console.ForegroundColor = ConsoleColor.Green;
                 UserInterface.DisplayUserOptions("Employee successfully removed");
+                Console.ResetColor();
+                Console.ReadKey();
             }
             catch
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 UserInterface.DisplayUserOptions("Employee removal unsuccessful please try again or type exit");
+                Console.ResetColor();
+                Console.ReadKey();
                 RemoveEmployee();
             }
         }
@@ -120,16 +155,22 @@ namespace HumaneSociety
             employee.FirstName = UserInterface.GetStringData("first name", "the employee's");
             employee.LastName = UserInterface.GetStringData("last name", "the employee's");
             employee.EmployeeNumber = int.Parse(UserInterface.GetStringData("employee number", "the employee's"));
-            employee.Email = UserInterface.GetStringData("email", "the employee's"); ;
+            employee.Email = UserInterface.GetStringData("email", "the employee's");
             try
             {
                 Query.RunEmployeeQueries(employee, "create");
+                Console.ForegroundColor = ConsoleColor.Green;
                 UserInterface.DisplayUserOptions("Employee addition successful.");
+                Console.ResetColor();
+                Console.ReadKey();
             }
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee addition unsuccessful please try again or type exit;");
+                Console.ForegroundColor = ConsoleColor.Red;
+                UserInterface.DisplayUserOptions("Employee addition unsuccessful please try again or type exit.");
+                Console.ResetColor();
+                Console.ReadKey();
                 return;
             }
         }

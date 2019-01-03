@@ -112,7 +112,9 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            Room result = new Room();
+            result = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
+            return result;
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
@@ -157,8 +159,6 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-
-        // action will be one of four things (create, read, update, or delete) - Jacob
         internal static void RunEmployeeQueries(Employee employee, string action)//admin 
         {
             switch (action)
@@ -578,10 +578,3 @@ namespace HumaneSociety
         }
     }                
 }
-
-
-
-
-
-       
-  

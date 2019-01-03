@@ -22,18 +22,17 @@ namespace HumaneSociety
             }
             else
             {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Admin log in successful.");
+                Console.ResetColor();
+                Console.ReadKey();
                 RunUserMenus();
             }
         }
 
         protected override void RunUserMenus()
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Admin log in successful.");
-            Console.ResetColor();
-            Console.ReadKey();
-
             List<string> options = new List<string>() {
                 "What would you like to do?",
                 "1. Create new employee",

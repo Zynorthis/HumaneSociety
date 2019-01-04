@@ -993,8 +993,13 @@ namespace HumaneSociety
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DietPlan_Animal", Storage="_DietPlan", ThisKey="DietPlanId", OtherKey="DietPlanId", IsForeignKey=true)]
+
+        public static explicit operator int(Animal v)
+        {
+            throw new NotImplementedException();
+        }
+
+        [global::System.Data.Linq.Mapping.AssociationAttribute(Name="DietPlan_Animal", Storage="_DietPlan", ThisKey="DietPlanId", OtherKey="DietPlanId", IsForeignKey=true)]
 		public DietPlan DietPlan
 		{
 			get

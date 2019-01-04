@@ -575,9 +575,9 @@ namespace HumaneSociety
         internal static int? GetDietPlanId()
 
         {
-           
-            string diet = UserInterface.GetStringData("diet","the animal's");
-           
+            Console.WriteLine("What is the Diet Plan ID?");
+            string dietPlanName = Console.ReadLine();
+            string diet = UserInterface.GetStringData("diet","the animal's");       
             int amount = UserInterface.GetIntegerData("amount","the animal's");
             try
             {
@@ -598,6 +598,21 @@ namespace HumaneSociety
                 return newDP.DietPlanId;              
             }          
         }  
+
+        internal static int? GetCategoryId(int iD)
+        {
+            try
+            {
+                var db = new HumaneSocietyDataContext();
+                var animalResult = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+                return (int)animalResult;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
+        }
 
         private static void addNewCategory()
         {

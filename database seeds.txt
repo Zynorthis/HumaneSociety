@@ -1,0 +1,51 @@
+INSERT INTO Clients VALUES
+('Jam', 'Joe', 'user2', 'password', 1, 'user2@gmail.com'),
+('Jam', 'Joe', 'user2', 'password', 1, 'user2@gmail.com'),
+('Flim', 'Flam', 'user3', 'password', 1, 'user3@gmail.com'),
+('Flip', 'Flop', 'user4', 'password', 1, 'user4@gmail.com'),
+('Zim', 'Zam', 'user5', 'password', 1, 'user5@gmail.com');
+
+INSERT INTO Employees VALUES
+('Stacy', 'Taylor', 'taystacy', 'hidd3n', '243510', 'stacytaylor@gmail.com'),
+('Willam', 'Taylor', 'taywill', 'dogl0ver', '635291', 'willamtaylor@gmail.com'),
+('Codie', 'Taylor', 'taycodie', 'n0tapassw0rd', '362023', 'codietaylor@gmail.com');
+
+INSERT INTO Categories VALUES
+('Dog'),
+('Cat'),
+('Fish'),
+('Rabbit'),
+('Ferret');
+
+INSERT INTO DietPlans values
+('Dog - Standard', 'Dry Dog Food', 1),
+('Cat - Standard', 'Dry Cat Food', 0.5),
+('Fish - Standard', 'Dry Fish Flakes', 0.125),
+('Rabbit - Standard', 'Natural Blend Rabbit Pellets', 0.25),
+('Ferret - Standard', 'Dry Ferret Food', 0.25);
+
+INSERT INTO Animals VALUES
+('Spark', 1, 30, 7, 1, 'Good Boy', 1, 1, 'Male', null, 2),
+('Sir Purrington', 2, 6, 5, 2, 'Relaxed', 1, 2, 'Female', null, 1),
+('Bubbles', 3, 0.25, 2, 3, 'Calm', 1, 1, 'Male', null, 1),
+('Tigar', 4, 6, 3, 4, 'Happy', 1, 2, 'Male', null, 3),
+('Veranica', 5, 4, 4, 5, 'Sad', 2, 1, 'Female', null, 3);
+
+INSERT INTO Rooms VALUES
+(101, 1),
+(102, null),
+(103, null),
+(201, 2),
+(202, null),
+(301, 3),
+(302, null),
+(401, 4),
+(402, null),
+(501, 5);
+
+INSERT INTO Shots VALUES
+('Corona Virus'),
+('Heartworm'),
+('Kennel Cough'),
+('Calicivirus'),
+('Feline Leukemia');

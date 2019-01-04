@@ -112,7 +112,9 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            Room result = new Room();
+            result = db.Rooms.Where(r => r.AnimalId == animalId).FirstOrDefault();
+            return result;
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
@@ -157,21 +159,123 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-
-        // action will be one of four things (create, read, update, or delete) - Jacob
         internal static void RunEmployeeQueries(Employee employee, string action)//admin 
         {
+            switch (action)
+            {
+                case "create":
+                    var employeeNumberCheck = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    if (employeeNumberCheck == null)
+                    {
+                        var employeeEmailCheck = db.Employees.Where(e => e.Email == employee.Email).FirstOrDefault();
+                        if (employeeEmailCheck == null)
+                        {
+                            db.Employees.InsertOnSubmit(employee);
+                            db.SubmitChanges();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            UserInterface.DisplayUserOptions("There is already an employee in the database with that employee email.");
+                            Console.ResetColor();
+                            Console.ReadKey();
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        UserInterface.DisplayUserOptions("There is already an employee in the database with that employee number.");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                    }
+                    break;
+                case "delete":
+                    employee = db.Employees.Where(e => e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber).SingleOrDefault();
+                    db.Employees.DeleteOnSubmit(employee);
+                    db.SubmitChanges();
+                    break;
+                case "read":
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    List<string> readOptions = new List<string>() {
+                        "----------------------------------------------",
+                        "  Current Employee Details:",
+                        "----------------------------------------------",
+                        "     Employee Name: " + employee.FirstName + " " + employee.LastName,
+                        "     Employee Username: " + employee.UserName,
+                        "     Employee Password: " + employee.Password,
+                        "     Employee Number: " + employee.EmployeeNumber,
+                        "     Employee Email: " + employee.Email,
+                        "----------------------------------------------"
+                    };
+                    UserInterface.DisplayUserOptions(readOptions);
+                    Console.ReadKey();
+                    break;
+                case "update":
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).SingleOrDefault();
+                    List<string> currentUpdateOptions = new List<string>() {
+                        "----------------------------------------------",
+                        "  Current Employee Details:",
+                        "----------------------------------------------",
+                        "     Employee Name: " + employee.FirstName + " " + employee.LastName,
+                        "     Employee Username: " + employee.UserName,
+                        "     Employee Password: " + employee.Password,
+                        "     Employee Number: " + employee.EmployeeNumber,
+                        "     Employee Email: " + employee.Email,
+                        "----------------------------------------------"
+                    };
+                    UserInterface.DisplayUserOptions(currentUpdateOptions);
+                    Console.ReadKey();
 
+                    employee.FirstName = UserInterface.GetStringData("first name", "the employee's new");
+                    employee.LastName = UserInterface.GetStringData("last name", "the employee's new");
+                    employee.EmployeeNumber = int.Parse(UserInterface.GetStringData("employee number", "the employee's new"));
+                    employee.Email = UserInterface.GetStringData("email", "the employee's new");
+
+                    List<string> newUpdateOptions = new List<string>() {
+                        "----------------------------------------------",
+                        "  New Employee Details:",
+                        "----------------------------------------------",
+                        "     Employee Name: " + employee.FirstName + " " + employee.LastName,
+                        "     Employee Username: " + employee.UserName,
+                        "     Employee Password: " + employee.Password,
+                        "     Employee Number: " + employee.EmployeeNumber,
+                        "     Employee Email: " + employee.Email,
+                        "----------------------------------------------"
+                    };
+                    UserInterface.DisplayUserOptions(newUpdateOptions);
+                    Console.ReadKey();
+
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Would you like to save these changes?");
+                    var input = UserInterface.GetBitData();
+                    if (input == true)
+                    {
+                        db.Employees.DeleteOnSubmit(employee);
+                        db.SubmitChanges();
+                    }
+                    break;
+            }
         }
         internal static Animal GetAnimalByID(int iD)//customer
         {
-            throw new NotImplementedException();
-
+            Animal result = new Animal();
+            result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+            return result;
         }
 
         internal static void Adopt(Animal animal, Client client)//customer
         {
-            throw new NotImplementedException();
+            Adoption newAdoption = new Adoption();
+            newAdoption.ClientId = client.ClientId;
+            newAdoption.AnimalId = animal.AnimalId;
+            newAdoption.ApprovalStatus = "Pending";
+            newAdoption.AdoptionFee = 75;
+            newAdoption.PaymentCollected = false;
+
+            db.Adoptions.InsertOnSubmit(newAdoption);
+            db.SubmitChanges();
         }
 
         internal static List<Animal> SearchForAnimalByMultipleTraits()
@@ -459,9 +563,6 @@ namespace HumaneSociety
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();         
         }
-
-     
-
         internal static int? GetDietPlanId()//M
         {
 
@@ -480,24 +581,16 @@ namespace HumaneSociety
                     FoodAmountInCups = amount
 
                 };
-                return new DietPlan;
-                
-            }
-            
-        }
+                return new DietPlan;              
+            }          
+        }  
 
-        internal static int? GetCategoryId()//M
+        private static void addNewCategory()
         {
-
-            
-          
-        }     
+            Category categoryToAdd = new Category();
+            // categoryToAdd.Name = categoryId;
+            db.Categories.InsertOnSubmit(categoryToAdd);
+            db.SubmitChanges();
+        }
     }                
 }
-
-
-
-
-
-       
-  

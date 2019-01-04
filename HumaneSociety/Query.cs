@@ -599,22 +599,21 @@ namespace HumaneSociety
             }          
         }  
 
-        internal static int? GetCategoryId(int iD)
+        internal static int? GetCategoryId(string categoryID)
         {
-            try
+            var categoryName = db.Categories.FirstOrDefault(i => i.Name == categoryID);
+            if (categoryName == null)
             {
-                var db = new HumaneSocietyDataContext();
-                var animalResult = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
-                return (int)animalResult;
+                Console.Clear();
+                Console.WriteLine("The category entered is not valid. Please enter a valid ID.\n");
+                Console.WriteLine($"Adding {categoryID} to database\n");
+                addNewCategory(categoryID);
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            
+            var categoryId = db.Categories.Where(c => c.Name == categoryID).Select(i => i.CategoryId).SingleOrDefault();
+            return categoryId;
         }
 
-        private static void addNewCategory()
+        private static void addNewCategory(string name)
         {
             Category categoryToAdd = new Category();
             // categoryToAdd.Name = categoryId;

@@ -1797,7 +1797,7 @@ namespace HumaneSociety
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FoodAmountInCups", DbType="Int")]
-		public System.Nullable<int> FoodAmountInCups
+		public System.Nullable<int> amount
 		{
 			get
 			{
@@ -1828,8 +1828,10 @@ namespace HumaneSociety
 				this._Animals.Assign(value);
 			}
 		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
+
+        public object ID { get; internal set; }
+
+        public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		

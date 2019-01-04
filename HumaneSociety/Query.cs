@@ -476,12 +476,12 @@ namespace HumaneSociety
             {
                 DietPlan newDietPlan = new DietPlan
                 {
-                    food = diet,
-                    amount = amount
+                    FoodType = diet,
+                    FoodAmountInCups = amount
 
                 };
                 return new DietPlan;
-
+                
             }
             
         }

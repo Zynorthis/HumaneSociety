@@ -315,6 +315,7 @@ namespace HumaneSociety
 
         private void GetPassword()
         {
+            Console.Clear();
             UserInterface.DisplayUserOptions("Please enter your password: (CaSe SeNsItIvE)");
             employee.Password = UserInterface.GetUserInput();
         }

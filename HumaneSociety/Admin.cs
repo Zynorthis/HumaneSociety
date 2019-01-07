@@ -39,7 +39,8 @@ namespace HumaneSociety
                 "2. Delete employee",
                 "3. Read employee info ",
                 "4. Update emplyee info",
-                "(type 1, 2, 3, 4,  create, read, update, or delete)"
+                "5. Run Current Test Method.",
+                "(type 1, 2, 3, 4, 5  create, read, update, delete, or test)"
             };
             Console.Clear();
             UserInterface.DisplayUserOptions(options);
@@ -68,6 +69,11 @@ namespace HumaneSociety
                 UpdateEmployee();
                 RunUserMenus();
             }
+            else if (input == "5" || input.ToLower() == "test")
+            {
+                CSVInputTest();
+                RunUserMenus();
+            }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -81,10 +87,7 @@ namespace HumaneSociety
         private void UpdateEmployee()
         {
             Employee employee = new Employee();
-            employee.FirstName = UserInterface.GetStringData("first name", "the employee's");
-            employee.LastName = UserInterface.GetStringData("last name", "the employee's");
-            employee.EmployeeId = int.Parse(UserInterface.GetStringData("employee number", "the employee's"));
-            employee.Email = UserInterface.GetStringData("email", "the employee's");
+            employee.EmployeeNumber = int.Parse(UserInterface.GetStringData("employee number", "the employee's"));
             try
             {
                 Query.RunEmployeeQueries(employee, "update");
@@ -173,6 +176,13 @@ namespace HumaneSociety
                 return;
             }
         }
-
+        private void CSVInputTest()
+        {
+            CSVConvertion.CSVInput();
+            //CSVConvertion.CSVOutput();
+            Console.Clear();
+            Console.WriteLine("Test Complete.");
+            Console.ReadKey();
+        }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 
 namespace HumaneSociety
 {
@@ -252,7 +254,6 @@ namespace HumaneSociety
                     var input = UserInterface.GetBitData();
                     if (input == true)
                     {
-                        db.Employees.DeleteOnSubmit(employee);
                         db.SubmitChanges();
                     }
                     break;
@@ -453,8 +454,8 @@ namespace HumaneSociety
             }
             else if (input == 8)
             {
-                
-            }         
+
+            }
         }
 
         private static void ChangePetFriendly(Animal animal)//M
@@ -465,7 +466,7 @@ namespace HumaneSociety
             string input = Console.ReadLine();
             bool petFriendly = input.ToUpper() == "YES" ? true : false;
             updateAnimal.PetFriendly = petFriendly;
-            db.SubmitChanges();               
+            db.SubmitChanges();
         }
 
         private static void ChangeKidFriendly(Animal animal)//M
@@ -561,7 +562,7 @@ namespace HumaneSociety
         internal static void AddAnimal(Animal animal)//M
         {
             db.Animals.InsertOnSubmit(animal);
-            db.SubmitChanges();         
+            db.SubmitChanges();
         }
 
         internal static int? GetDietPlanId()//M
@@ -576,5 +577,5 @@ namespace HumaneSociety
             db.Categories.InsertOnSubmit(categoryToAdd);
             db.SubmitChanges();
         }
-    }                
+    }
 }

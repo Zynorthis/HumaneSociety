@@ -141,7 +141,7 @@ namespace HumaneSociety
                 "pet friendly: " + BoolToYesNo(animal.PetFriendly),
                 $"Location: " + animalRoom.RoomId,
                 "Weight: " + animal.Weight.ToString(),
-                "Food amoumnt in cups: " + animal.DietPlan.FoodAmountInCups
+                "Food amoumnt in cups: " + animal.DietPlan.amount
             };
             DisplayUserOptions(info);
             Console.ReadLine();
@@ -230,6 +230,11 @@ namespace HumaneSociety
         }
 
         internal static string GetStringData(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetIntegerData(string v)
         {
             throw new NotImplementedException();
         }

@@ -259,14 +259,14 @@ namespace HumaneSociety
                     break;
             }
         }
-        internal static Animal GetAnimalByID(int iD)//customer
+        internal static Animal GetAnimalByID(int iD)
         {
             Animal result = new Animal();
             result = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
             return result;
         }
 
-        internal static void Adopt(Animal animal, Client client)//customer
+        internal static void Adopt(Animal animal, Client client)
         {
             Adoption newAdoption = new Adoption();
             newAdoption.ClientId = client.ClientId;
@@ -370,7 +370,7 @@ namespace HumaneSociety
             }
             return animals;
         }
-        internal static IQueryable<Adoption> GetPendingAdoptions()//M
+        internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             var requiredData =
                 from x in db.Adoptions
@@ -379,7 +379,7 @@ namespace HumaneSociety
             return requiredData;
 
         }
-        internal static void UpdateAdoption(bool x, Adoption adoption)//M
+        internal static void UpdateAdoption(bool x, Adoption adoption)
         {
             var requiredData =
              (from y in db.Adoptions
@@ -392,17 +392,17 @@ namespace HumaneSociety
             if (x)
             {
                 requiredData.ApprovalStatus = "Approved";
-                animal.AdoptionStatus = "Approved";
+                animal.AdoptionStatus = "Adopted";
             }
             else
             {
                 requiredData.ApprovalStatus = "Denied";
-                animal.AdoptionStatus = "Pending";
+                animal.AdoptionStatus = "Animal is available for a different applicant.";
             }
 
             db.SubmitChanges();
         }
-        internal static IQueryable<AnimalShot> GetShots(Animal animal)//M
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
             var requiredData =
                 from x in db.AnimalShots
@@ -412,7 +412,7 @@ namespace HumaneSociety
             return requiredData;
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)//M
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
         {
             UserEmployee userEmployee = new UserEmployee();
             int input = UserInterface.GetIntegerData();
@@ -458,8 +458,9 @@ namespace HumaneSociety
             }
         }
 
-        private static void ChangePetFriendly(Animal animal)//M
-        {
+        private static void ChangePetFriendly(Animal animal)
+
+        { 
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(p => p.PetFriendly == animal.PetFriendly && p.AnimalId == animal.AnimalId).Single();
             Console.WriteLine("Is this animal pet friendly, Yes or No?");
@@ -469,7 +470,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeKidFriendly(Animal animal)//M
+        private static void ChangeKidFriendly(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(k => k.KidFriendly == animal.KidFriendly && k.AnimalId == animal.AnimalId).Single();
@@ -480,7 +482,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeDemeanor(Animal animal)//M
+        private static void ChangeDemeanor(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(d => d.Demeanor == animal.Demeanor && d.AnimalId == animal.AnimalId).Single();
@@ -490,7 +493,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeAge(Animal animal)//M
+        private static void ChangeAge(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(a => a.Age == animal.Age && a.AnimalId == animal.AnimalId).Single();
@@ -500,7 +504,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeWeight(Animal animal)//M
+        private static void ChangeWeight(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(w => w.Weight == animal.Weight && w.AnimalId == animal.AnimalId).Single();
@@ -510,7 +515,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeName(Animal animal)//M
+        private static void ChangeName(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(n => n.Name == animal.Name && n.AnimalId == animal.AnimalId).Single();
@@ -520,7 +526,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        private static void ChangeCategory(Animal animal)//M
+        private static void ChangeCategory(Animal animal)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Animal updateAnimal = db.Animals.Where(c => c.Category == animal.Category && c.AnimalId == animal.AnimalId).Single();
@@ -530,7 +537,8 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void UpdateShot(string newShot, Animal animal)//M
+        internal static void UpdateShot(string newShot, Animal animal)
+
         {
             var requiredData =
                 (from x in db.Shots
@@ -545,7 +553,8 @@ namespace HumaneSociety
 
         }
 
-        internal static void RemoveAnimal(Animal animal)//M
+        internal static void RemoveAnimal(Animal animal)
+
         {
             var requiredData =
                 (from x in db.Animals
@@ -559,18 +568,53 @@ namespace HumaneSociety
             }
         }
 
-        internal static void AddAnimal(Animal animal)//M
+        internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
         }
+        internal static int? GetDietPlanId()
 
-        internal static int? GetDietPlanId()//M
         {
-            throw new NotImplementedException();
+            Console.WriteLine("What is the Diet Plan ID?");
+            string dietPlanName = Console.ReadLine();
+            string diet = UserInterface.GetStringData("diet","the animal's");       
+            int amount = UserInterface.GetIntegerData("amount","the animal's");
+            try
+            {
+                var query = (from dietPlan in db.DietPlans
+                             where dietPlan.FoodType == diet
+                             select dietPlan.ID).First();
+                return(int)query;
+            }
+            catch
+            {
+                DietPlan newDP = new DietPlan
+                {
+                    FoodType = diet,
+                    amount = amount
+
+                };
+                db.DietPlans.InsertOnSubmit(newDP);
+                return newDP.DietPlanId;              
+            }          
+        }  
+
+        internal static int? GetCategoryId(string categoryID)
+        {
+            var categoryName = db.Categories.FirstOrDefault(i => i.Name == categoryID);
+            if (categoryName == null)
+            {
+                Console.Clear();
+                Console.WriteLine("The category entered is not valid. Please enter a valid ID.\n");
+                Console.WriteLine($"Adding {categoryID} to database\n");
+                addNewCategory(categoryID);
+            }
+            var categoryId = db.Categories.Where(c => c.Name == categoryID).Select(i => i.CategoryId).SingleOrDefault();
+            return categoryId;
         }
 
-        private static void addNewCategory()
+        private static void addNewCategory(string name)
         {
             Category categoryToAdd = new Category();
             // categoryToAdd.Name = categoryId;
